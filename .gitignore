@@ -1,2 +1,4 @@
-/test-classes/
-/gwt-unitCache/
+gwt-unitCache/
+*.js
+war/cdio3_d2_webinterface/
+war/WEB-INF/
