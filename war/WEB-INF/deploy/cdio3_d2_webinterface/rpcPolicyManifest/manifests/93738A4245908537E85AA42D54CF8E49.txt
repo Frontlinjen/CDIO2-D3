@@ -1,0 +1,2 @@
+serviceClass: webInterface.client.GreetingService
+path: BD3D03CF9E8BFE7E8CADC884BAFFEE62.gwt.rpc

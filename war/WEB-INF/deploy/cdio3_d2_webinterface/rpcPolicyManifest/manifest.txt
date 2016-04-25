@@ -1,0 +1,3 @@
+# Module cdio3_d2_webinterface
+# RPC service class, partial path of RPC policy file
+webInterface.client.GreetingService, BD3D03CF9E8BFE7E8CADC884BAFFEE62.gwt.rpc
