@@ -17,6 +17,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
+  <public path="resources" />
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='webInterface.client.CDIO3_D2_WebInterface'/>
