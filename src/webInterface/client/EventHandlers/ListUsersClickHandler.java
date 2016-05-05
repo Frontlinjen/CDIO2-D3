@@ -1,5 +1,6 @@
 package webInterface.client.EventHandlers;
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.EditTextCell;
@@ -24,69 +25,24 @@ import webInterface.shared.AnsatDTO;
 
 
 public class ListUsersClickHandler implements ClickHandler {
-	
 		
-	@Override
-	public void onClick(ClickEvent event) { //TODO: Show users when clicked
+	
+	public List<AnsatDTO> getLayoutList(ClickEvent event) { //TODO: Show users when clicked
 		RootPanel panel = RootPanel.get("contents");
 		panel.clear();
 		CellTable<AnsatDTO> vPanel = new CellTable<AnsatDTO>();
 		
-		TextColumn<AnsatDTO> CPRColumn = new TextColumn<AnsatDTO>()
-				{
-					@Override
-					public String getValue(AnsatDTO user) {
-						return user.getCpr();
-					}
-				};
+				TextColumn<AnsatDTO> CPRColumn = getCPRColumn();
 		//CPRColumn.setSortable(true);
-				EditTextCell nameCell = new EditTextCell();
-				Column<AnsatDTO, String> nameColumn = new Column<AnsatDTO, String>(nameCell)
-						{
-							@Override
-							public String getValue(AnsatDTO user) {
-								return user.getOprNavn();
-							}
-						};
-
+				Column<AnsatDTO, String> nameColumn = getNameColumn();
 		//nameColumn.setSortable(true);
-				TextColumn<AnsatDTO> iniColumn = new TextColumn<AnsatDTO>()
-				{
-					@Override
-					public String getValue(AnsatDTO user) {
-						return user.getIni();
-					}
-				};
+				TextColumn<AnsatDTO> iniColumn = getIniColumn();
 		//nameColumn.setSortable(true);
-				final String[] ranks = new String[] {"Operatør", "Værkfører", "Farmaceut", "Administrator"};
-				SelectionCell rankCell = new SelectionCell(Arrays.asList(ranks));
-				Column<AnsatDTO, String> rankColumn = new Column<AnsatDTO, String>(rankCell)
-						{
-							@Override
-			                public String getValue(AnsatDTO object) {
-			                    return ranks[object.getTitel()];  //pass integer as i here at runtime
-			                }
-						};
+				Column<AnsatDTO, String> rankColumn = getRankColumn();
+		//nameColumn.setSortable(true);
+				Column<AnsatDTO, String> saveColumn = getButtonColumn("save");
+				Column<AnsatDTO, String> removeColumn = getButtonColumn("remove");
 				
-		//nameColumn.setSortable(true);
-				ButtonCell saveButton = new ButtonCell();
-				Column<AnsatDTO, String> saveColumn = new Column<AnsatDTO, String>(saveButton)
-						{
-							@Override
-							public String getValue(AnsatDTO user)
-							{
-								return "Save";
-							}
-						};
-				ButtonCell removeButton = new ButtonCell();
-				Column<AnsatDTO, String> removeColumn = new Column<AnsatDTO, String>(removeButton)
-				{
-					@Override
-					public String getValue(AnsatDTO user)
-						{
-							return "Delete";
-						}
-				};
 		vPanel.addColumn(CPRColumn, "CPR");
 		vPanel.addColumn(nameColumn, "Name");
 		vPanel.addColumn(iniColumn, "Ini");
@@ -95,11 +51,78 @@ public class ListUsersClickHandler implements ClickHandler {
 		vPanel.addColumn(removeColumn, "");
 		
 		ListDataProvider<AnsatDTO> userList = new ListDataProvider<AnsatDTO>();
-		userList.addDataDisplay(vPanel);
-		userList.getList().add(new AnsatDTO("000001", "Test", "22","123", 2));		
+		userList.addDataDisplay(vPanel);		
 		panel.add(vPanel);
+		
+		return userList.getList();
+	}
 
+	private Column<AnsatDTO, String> getButtonColumn(String value) {
+		ButtonCell button = new ButtonCell();
+		Column<AnsatDTO, String> buttonColumn = new Column<AnsatDTO, String>(button)
+				{
+					@Override
+					public String getValue(AnsatDTO user)
+					{
+						return value;
+					}
+				};
+		return buttonColumn;
+	}
 
+	private Column<AnsatDTO, String> getRankColumn() {
+		final String[] ranks = new String[] {"Operatør", "Værkfører", "Farmaceut", "Administrator"};
+		SelectionCell rankCell = new SelectionCell(Arrays.asList(ranks));
+		Column<AnsatDTO, String> rankColumn = new Column<AnsatDTO, String>(rankCell)
+				{
+					@Override
+		            public String getValue(AnsatDTO object) {
+		                return ranks[object.getTitel()];  //pass integer as i here at runtime
+		            }
+				};
+		return rankColumn;
+	}
+
+	private TextColumn<AnsatDTO> getIniColumn() {
+		TextColumn<AnsatDTO> iniColumn = new TextColumn<AnsatDTO>()
+		{
+			@Override
+			public String getValue(AnsatDTO user) {
+				return user.getIni();
+			}
+		};
+		return iniColumn;
+	}
+
+	private TextColumn<AnsatDTO> getCPRColumn() {
+		TextColumn<AnsatDTO> CPRColumn = new TextColumn<AnsatDTO>()
+				{
+
+					@Override
+					public String getValue(AnsatDTO user) {
+						return user.getCpr();
+					}
+					
+				};
+		return CPRColumn;
+	}
+
+	private Column<AnsatDTO, String> getNameColumn() {
+		EditTextCell nameCell = new EditTextCell();
+		Column<AnsatDTO, String> nameColumn = new Column<AnsatDTO, String>(nameCell)
+				{
+					@Override
+					public String getValue(AnsatDTO user) {
+						return user.getOprNavn();
+					}
+				};
+		return nameColumn;
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
