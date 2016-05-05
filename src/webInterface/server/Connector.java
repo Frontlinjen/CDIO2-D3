@@ -1,4 +1,4 @@
-package webInterface.shared;
+package webInterface.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
