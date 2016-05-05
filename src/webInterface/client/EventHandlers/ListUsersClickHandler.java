@@ -16,7 +16,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import javafx.scene.control.ListCell;
+import webInterface.server.AnsatDAO;
+import webInterface.server.DALException;
+import webInterface.server.MySQLAnsatDAO;
 import webInterface.shared.AnsatDTO;
 
 
@@ -51,6 +53,9 @@ public class ListUsersClickHandler implements ClickHandler {
 		vPanel.addColumn(removeColumn, "");
 		
 		ListDataProvider<AnsatDTO> userList = new ListDataProvider<AnsatDTO>();
+		
+		
+		
 		userList.addDataDisplay(vPanel);		
 		panel.add(vPanel);
 		
@@ -121,8 +126,20 @@ public class ListUsersClickHandler implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-		
+		List<AnsatDTO> gui = getLayoutList(event);
+		List<AnsatDTO> ops = getOperators();
+			gui.addAll(ops);
+	}
+	
+	private List<AnsatDTO> getOperators(){
+		AnsatDAO ansat = new MySQLAnsatDAO();
+		try {
+			 return ansat.getAnsatList();
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
