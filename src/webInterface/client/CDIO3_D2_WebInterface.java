@@ -1,5 +1,6 @@
 package webInterface.client;
 
+import webInterface.client.EventHandlers.ListUsersClickHandler;
 import webInterface.shared.FieldVerifier;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Text;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,20 +42,12 @@ public class CDIO3_D2_WebInterface implements EntryPoint {
 	 */
 	public void onModuleLoad() 
 	{
-		RootPanel container = RootPanel.get("operatorList");
-		String[] names = {
-				"Senads søster",
-				"Senads mor", 
-				"Rallemuller",
-				"Isbjørn",
-				"Sugardaddy", 
-				"Horsepumping",
-				"Thomas",
-				"Shiniqua"
-		};
-		for(String s : names)
+		RootPanel container = RootPanel.get("options");
+		String[] buttons = {"List users"};
+		for(String s : buttons)
 		{
-			Label t = new Label(s);
+			PushButton t = new PushButton(s);
+			t.addClickHandler(new ListUsersClickHandler());
 			container.add(t);
 		}
 	}
