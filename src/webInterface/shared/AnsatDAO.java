@@ -1,8 +1,6 @@
-package daointerfaces01917;
+package webInterface.shared;
 
 import java.util.List;
-
-import dto01917.AnsatDTO;
 
 public interface AnsatDAO {
 	AnsatDTO getAnsat(String cpr) throws DALException;

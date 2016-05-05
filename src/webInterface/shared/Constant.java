@@ -1,4 +1,4 @@
-package connector01917;
+package webInterface.shared;
 
 
 // erstat konstanterne nedenfor

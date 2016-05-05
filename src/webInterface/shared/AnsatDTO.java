@@ -1,4 +1,4 @@
-package dto01917;
+package webInterface.shared;
 
 /**
  * Operatoer Data Access Objekt

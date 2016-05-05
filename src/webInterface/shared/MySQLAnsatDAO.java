@@ -1,14 +1,9 @@
-package daoimpl01917;
+package webInterface.shared;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
-
-import connector01917.Connector;
-import daointerfaces01917.AnsatDAO;
-import daointerfaces01917.DALException;
-import dto01917.AnsatDTO;
 
 public class MySQLAnsatDAO implements AnsatDAO {
 	public AnsatDTO getAnsat(String cpr) throws DALException {

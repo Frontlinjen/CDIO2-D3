@@ -1,4 +1,4 @@
-package daointerfaces01917;
+package webInterface.shared;
 
 public class DALException extends Exception
 {
