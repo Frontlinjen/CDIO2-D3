@@ -9,4 +9,5 @@ public interface AnsatDAO {
 	List<AnsatDTO> getAnsatList() throws DALException;
 	void createAnsat(AnsatDTO ans) throws DALException;
 	void updateAnsat(AnsatDTO ans) throws DALException;
+	void deleteAnsat(AnsatDTO ans) throws DALException;
 }

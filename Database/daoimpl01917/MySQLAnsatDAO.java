@@ -50,5 +50,9 @@ public class MySQLAnsatDAO implements AnsatDAO {
 		catch (SQLException e) { throw new DALException(e); }
 		return list;
 	}
+
+	public void deleteAnsat(AnsatDTO ans) throws DALException {
+		Connector.doUpdate("DELETE FROM ansat WHERE cpr = " + ans.getCpr() + ";");
+	}
 }
 	
