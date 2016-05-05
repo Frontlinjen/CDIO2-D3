@@ -1,4 +1,4 @@
-package webInterface.shared;
+package webInterface.server;
 
 public class DALException extends Exception
 {

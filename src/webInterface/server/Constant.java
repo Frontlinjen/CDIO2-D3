@@ -1,4 +1,4 @@
-package webInterface.shared;
+package webInterface.server;
 
 
 // erstat konstanterne nedenfor
