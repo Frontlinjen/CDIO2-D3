@@ -74,12 +74,11 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 							database.deleteAnsat(object, new AsyncCallback<Integer>() {
 								@Override
 								public void onFailure(Throwable caught) {
-									Window.alert("Unsuccessfully removed");
+									
 								}
 
 								@Override
 								public void onSuccess(Integer result) {
-									Window.alert("Successfully removed");
 									gui.remove(index);
 								}
 								
@@ -217,7 +216,7 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 		       Window.alert("Failed to invoke\n" + e.getMessage());
 		     } catch (Throwable e) {
 		       // last resort -- a very unexpected exception
-		    	 Window.alert("We're fucked");
+		    	 Window.alert("Unknown error");
 		     }
 	}
 	@Override

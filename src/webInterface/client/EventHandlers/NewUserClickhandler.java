@@ -102,13 +102,13 @@ public class NewUserClickhandler  implements ClickHandler {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									Window.alert("Failed to create user");
+									status.setText("Failed to create user");
 									
 								}
 
 								@Override
 								public void onSuccess(Integer result) {
-									Window.alert("Successfully created user");		
+									status.setText("Successfully created user");		
 									input.setValue("");
 									navn.setValue("");
 									ini.setValue("");
