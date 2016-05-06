@@ -80,7 +80,7 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 	}
 
 	private Column<AnsatDTO, String> getRankColumn() {
-		final String[] ranks = new String[] {"Operatør", "Værkfører", "Farmaceut", "Administrator"};
+		final String[] ranks = new String[] {"Operat\u00F8r", "V\u00E6rkfu\00F8rer", "Farmaceut", "Administrator"};
 		SelectionCell rankCell = new SelectionCell(Arrays.asList(ranks));
 		Column<AnsatDTO, String> rankColumn = new Column<AnsatDTO, String>(rankCell)
 				{
