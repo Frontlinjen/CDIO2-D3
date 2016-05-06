@@ -19,16 +19,16 @@ public class MySQLAnsatDAO implements AnsatDAO {
 		
 	}
 	
-	public void createAnsat(AnsatDTO ans) throws DALException {		
-			Connector.doUpdate(
+	public int createAnsat(AnsatDTO ans) throws DALException {		
+			return Connector.doUpdate(
 				"INSERT INTO ansat(cpr, opr_navn, ini, password, titel) VALUES " +
 				"(" + ans.getCpr() + ", '" + ans.getOprNavn() + "', '" + ans.getIni() + "', '" + 
 				ans.getPassword() + "', '" + ans.getTitel() + "');"
 			);
 	}
 	
-	public void updateAnsat(AnsatDTO ans) throws DALException {
-		Connector.doUpdate(
+	public int updateAnsat(AnsatDTO ans) throws DALException {
+		return Connector.doUpdate(
 				"UPDATE ansat SET  opr_navn = '" + ans.getOprNavn() + "', ini =  '" + ans.getIni() + 
 				"', password = '" + ans.getPassword() + "', titel = '" + ans.getTitel() + "' WHERE cpr = " +
 				ans.getCpr() + ";"
@@ -49,8 +49,8 @@ public class MySQLAnsatDAO implements AnsatDAO {
 		return list;
 	}
 
-	public void deleteAnsat(AnsatDTO ans) throws DALException {
-		Connector.doUpdate("DELETE FROM ansat WHERE cpr = " + ans.getCpr() + ";");
+	public int deleteAnsat(AnsatDTO ans) throws DALException {
+		return Connector.doUpdate("DELETE FROM ansat WHERE cpr = " + ans.getCpr() + ";");
 	}
 }
 	
