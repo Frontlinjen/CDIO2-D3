@@ -1,13 +1,17 @@
-package webInterface.server;
+package webInterface.shared;
 
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import webInterface.client.AnsatRPCInterface;
-import webInterface.shared.AnsatDTO;
 
 public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInterface {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public AnsatDTO getAnsat(String cpr) {
