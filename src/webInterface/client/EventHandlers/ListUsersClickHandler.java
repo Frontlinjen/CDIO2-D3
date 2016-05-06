@@ -11,14 +11,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
+import webInterface.client.AnsatRPCInterface;
 import webInterface.client.AnsatRPCInterfaceAsync;
 import webInterface.shared.AnsatDTO;
-import webInterface.shared.AnsatRPCServlet;
 
 
 
@@ -27,7 +30,7 @@ import webInterface.shared.AnsatRPCServlet;
 
 public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatDTO[]> {
 	
-	AnsatRPCInterfaceAsync database = (AnsatRPCInterfaceAsync)GWT.create(AnsatRPCServlet.class);
+	AnsatRPCInterfaceAsync database = (AnsatRPCInterfaceAsync)GWT.create(AnsatRPCInterface.class);
 	List<AnsatDTO> gui;
 	
 	public List<AnsatDTO> getLayoutList(ClickEvent event) { //TODO: Show users when clicked
@@ -129,17 +132,32 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 	public void onClick(ClickEvent event) {
 		if(gui==null)
 			gui = getLayoutList(event);
+		database.getAnsatList(this);
 	}
 
 	@Override
 	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
-		DialogBox box = new DialogBox();
-		box.setText("ERROR");
-		box.show();
+		 try {
+		       throw caught;
+		     } catch (IncompatibleRemoteServiceException e) {
+		       Window.alert("Incompatible");
+		     } catch (InvocationException e) {
+		       Window.alert("Failed to invoke\n" + e.getMessage());
+		     } catch (Throwable e) {
+		       // last resort -- a very unexpected exception
+		    	 Window.alert("We're fucked");
+		     }
 	}
 	@Override
 	public void onSuccess(AnsatDTO[] result) {
+		if(result==null)
+		{
+			Window.alert("No data recieved.");
+		}
+		else
+		{
+			Window.alert("Data updated");
+		}
 		for (AnsatDTO ansatDTO : result) {
 			gui.add(ansatDTO);
 		}

@@ -1,5 +1,4 @@
 package webInterface.server;
-
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -11,6 +10,7 @@ import webInterface.shared.AnsatDTO;
 
 public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInterface {
 
+	private static final long serialVersionUID = 1L;
 	MySQLAnsatDAO database = new MySQLAnsatDAO();
 	
 	
@@ -25,17 +25,19 @@ public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInt
 	}
 
 	@Override
-	public List<AnsatDTO> getAnsatList() {
-		try{
-			return database.getAnsatList();
-		} catch (DALException e){
-			System.out.println("Failed at getAnsatList");
-		}
-		return null;
+	public AnsatDTO[] getAnsatList() {
+					
+					try {
+						List<AnsatDTO> ansatte = database.getAnsatList();
+						AnsatDTO[] ansatteArray = new AnsatDTO[ansatte.size()];
+						return ansatte.toArray(ansatteArray);
+					} catch (DALException e) {
+						return null;
+					}			
 	}
 
 	@Override
-	public int createAnsat(AnsatDTO ans) {
+	public Integer createAnsat(AnsatDTO ans) {
 		try {
 		return database.createAnsat(ans);
 		} catch (DALException e){
@@ -45,7 +47,7 @@ public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInt
 	}
 
 	@Override
-	public int updateAnsat(AnsatDTO ans) {
+	public Integer updateAnsat(AnsatDTO ans) {
 		try {
 			return database.updateAnsat(ans);
 			} catch (DALException e){
@@ -56,7 +58,7 @@ public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInt
 	}
 
 	@Override
-	public int deleteAnsat(AnsatDTO ans) {
+	public Integer deleteAnsat(AnsatDTO ans) {
 		try {
 			return database.deleteAnsat(ans);
 			} catch (DALException e){
@@ -65,5 +67,12 @@ public class AnsatRPCServlet extends RemoteServiceServlet implements AnsatRPCInt
 			return 0;
 		
 	}
+	public static void main(String[] args) {
+		AnsatRPCServlet servlet = new AnsatRPCServlet();
+		for (AnsatDTO string : servlet.getAnsatList()) {
+			System.out.println(string);
+		}
+		
+    }
 	
 }

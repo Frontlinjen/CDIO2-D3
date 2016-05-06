@@ -9,6 +9,16 @@ import webInterface.shared.AnsatDTO;
 import java.util.ArrayList;
 
 public class MySQLAnsatDAO implements AnsatDAO {
+	public MySQLAnsatDAO()
+	{
+		//Connects to database: 
+		try {
+			new Connector();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	public AnsatDTO getAnsat(String cpr) throws DALException {
 		ResultSet rs = Connector.doQuery("SELECT * FROM ansat WHERE cpr = " + cpr + ";");
 	    try {
