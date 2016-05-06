@@ -39,4 +39,13 @@ public class FieldVerifier {
 		}
 		return name.length() > 3;
 	}
+	
+	public boolean isValidCpr (String cpr){
+		for(int i = 0; i < cpr.length(); i++){
+			if(!Character.isDigit(cpr.charAt(i))){
+				return false;
+			}
+		}
+		return cpr.length() == 10;
+	}
 }
