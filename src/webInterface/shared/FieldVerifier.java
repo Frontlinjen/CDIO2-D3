@@ -46,6 +46,7 @@ public class FieldVerifier {
 				return false;
 			}
 		}
-		return cpr.length() == 10;
+
+		return cpr.length() == 10 && cpr.charAt(0)!='0';
 	}
 }
