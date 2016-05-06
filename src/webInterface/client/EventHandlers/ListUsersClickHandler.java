@@ -10,15 +10,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
-
-import webInterface.server.Database.AnsatDAO;
-import webInterface.server.Database.DALException;
-import webInterface.server.Database.MySQLAnsatDAO;
 import webInterface.shared.AnsatDTO;
 
 
@@ -62,7 +55,7 @@ public class ListUsersClickHandler implements ClickHandler {
 		return userList.getList();
 	}
 
-	private Column<AnsatDTO, String> getButtonColumn(String value) {
+	private Column<AnsatDTO, String> getButtonColumn(final String value) {
 		ButtonCell button = new ButtonCell();
 		Column<AnsatDTO, String> buttonColumn = new Column<AnsatDTO, String>(button)
 				{
@@ -127,19 +120,10 @@ public class ListUsersClickHandler implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		List<AnsatDTO> gui = getLayoutList(event);
-		List<AnsatDTO> ops = getOperators();
-			gui.addAll(ops);
+		AnsatDTO[] tests = {new AnsatDTO("0000001", "Senads søster", "XXX", "sd", 2)};
+			gui.add(tests[0]);
 	}
 	
-	private List<AnsatDTO> getOperators(){
-		AnsatDAO ansat = new MySQLAnsatDAO();
-		try {
-			 return ansat.getAnsatList();
-		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 
 }
