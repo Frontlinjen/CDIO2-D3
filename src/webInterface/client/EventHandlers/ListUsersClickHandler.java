@@ -16,9 +16,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
-import webInterface.server.AnsatDAO;
-import webInterface.server.DALException;
-import webInterface.server.MySQLAnsatDAO;
+import webInterface.server.Database.AnsatDAO;
+import webInterface.server.Database.DALException;
+import webInterface.server.Database.MySQLAnsatDAO;
 import webInterface.shared.AnsatDTO;
 
 
