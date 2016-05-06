@@ -42,7 +42,7 @@ public class NewUserClickhandler  implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		RootPanel panel = RootPanel.get("contents");
 		panel.clear();
-		Label inputText =  new Label("Indsæt CPR:"); 
+		Label inputText =  new Label("Inds\u00E6t CPR:"); 
 		panel.add(inputText);
 		final TextBox input = new TextBox();
 		input.setMaxLength(10);
