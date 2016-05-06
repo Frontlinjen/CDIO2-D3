@@ -5,22 +5,30 @@ import java.util.List;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.SelectionCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
+
+import webInterface.client.AnsatRPCInterfaceAsync;
 import webInterface.shared.AnsatDTO;
+import webInterface.shared.AnsatRPCServlet;
 
 
 
 
 
 
-public class ListUsersClickHandler implements ClickHandler {
-		
+public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatDTO[]> {
+	
+	AnsatRPCInterfaceAsync database = (AnsatRPCInterfaceAsync)GWT.create(AnsatRPCServlet.class);
+	List<AnsatDTO> gui;
 	
 	public List<AnsatDTO> getLayoutList(ClickEvent event) { //TODO: Show users when clicked
 		RootPanel panel = RootPanel.get("contents");
@@ -119,9 +127,22 @@ public class ListUsersClickHandler implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		List<AnsatDTO> gui = getLayoutList(event);
-		AnsatDTO[] tests = {new AnsatDTO("0000001", "Senads søster", "XXX", "sd", 2)};
-			gui.add(tests[0]);
+		if(gui==null)
+			gui = getLayoutList(event);
+	}
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		DialogBox box = new DialogBox();
+		box.setText("ERROR");
+		box.show();
+	}
+	@Override
+	public void onSuccess(AnsatDTO[] result) {
+		for (AnsatDTO ansatDTO : result) {
+			gui.add(ansatDTO);
+		}
 	}
 	
 
