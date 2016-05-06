@@ -40,8 +40,8 @@ public class MySQLAnsatDAO implements AnsatDAO {
 	public int updateAnsat(AnsatDTO ans) throws DALException {
 		return Connector.doUpdate(
 				"UPDATE ansat SET  opr_navn = '" + ans.getOprNavn() + "', ini =  '" + ans.getIni() + 
-				"', password = '" + ans.getPassword() + "', titel = '" + ans.getTitel() + "' WHERE cpr = " +
-				ans.getCpr() + ";"
+				"', password = '" + ans.getPassword() + "', titel = " + ans.getTitel() + " WHERE cpr = '" +
+				ans.getCpr() + "';"
 		);
 	}
 	
