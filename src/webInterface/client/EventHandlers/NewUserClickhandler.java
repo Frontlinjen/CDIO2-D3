@@ -48,12 +48,12 @@ public class NewUserClickhandler  implements ClickHandler {
 		input.setMaxLength(10);
 		panel.add(input);
 		
-		Label navnText = new Label("Indsæt navn:");
+		Label navnText = new Label("Inds\u00E6t navn:");
 		final TextBox navn = new TextBox();
 		panel.add(navnText);
 		panel.add(navn);
 		
-		Label iniText = new Label("Indsæt Ini:");
+		Label iniText = new Label("Inds\u00E6t Ini:");
 		final TextBox ini = new TextBox();
 		panel.add(iniText);
 		panel.add(ini);
@@ -65,7 +65,7 @@ public class NewUserClickhandler  implements ClickHandler {
 		panel.add(rankText);
 		panel.add(rank);
 		
-		Label passText = new Label("Indsæt password:");
+		Label passText = new Label("Inds\u00E6t password:");
 		final PasswordTextBox pass = new PasswordTextBox();
 		panel.add(passText);
 		panel.add(pass);
