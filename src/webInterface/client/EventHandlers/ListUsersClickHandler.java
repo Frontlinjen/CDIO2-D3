@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.ListDataProvider;
 
 import webInterface.client.AnsatRPCInterface;
@@ -30,24 +32,60 @@ import webInterface.shared.AnsatDTO;
 
 public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatDTO[]> {
 	
-	AnsatRPCInterfaceAsync database = (AnsatRPCInterfaceAsync)GWT.create(AnsatRPCInterface.class);
+	final AnsatRPCInterfaceAsync database = (AnsatRPCInterfaceAsync)GWT.create(AnsatRPCInterface.class);
 	List<AnsatDTO> gui;
 	
-	public List<AnsatDTO> getLayoutList(ClickEvent event) { //TODO: Show users when clicked
+	public List<AnsatDTO> getLayoutList() { //TODO: Show users when clicked
 		RootPanel panel = RootPanel.get("contents");
 		panel.clear();
 		CellTable<AnsatDTO> vPanel = new CellTable<AnsatDTO>();
 		
-				TextColumn<AnsatDTO> CPRColumn = getCPRColumn();
+				Column<AnsatDTO, String> CPRColumn = getCPRColumn();
 		//CPRColumn.setSortable(true);
 				Column<AnsatDTO, String> nameColumn = getNameColumn();
 		//nameColumn.setSortable(true);
-				TextColumn<AnsatDTO> iniColumn = getIniColumn();
+				Column<AnsatDTO, String> iniColumn = getIniColumn();
 		//nameColumn.setSortable(true);
 				Column<AnsatDTO, String> rankColumn = getRankColumn();
 		//nameColumn.setSortable(true);
 				Column<AnsatDTO, String> saveColumn = getButtonColumn("save");
+				saveColumn.setFieldUpdater(new FieldUpdater<AnsatDTO, String>() {
+					@Override
+					  public void update(final int index, AnsatDTO object, String value) {
+							database.updateAnsat(object, new AsyncCallback<Integer>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									Window.alert("Update unsuccessful");
+								}
+
+								@Override
+								public void onSuccess(Integer result) {
+									Window.alert("Successfully updated");
+								}
+								
+							});
+					  }
+				});
+				
 				Column<AnsatDTO, String> removeColumn = getButtonColumn("remove");
+				removeColumn.setFieldUpdater(new FieldUpdater<AnsatDTO, String>() {
+					@Override
+					  public void update(final int index, AnsatDTO object, String value) {
+							database.deleteAnsat(object, new AsyncCallback<Integer>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									Window.alert("Unsuccessfully removed");
+								}
+
+								@Override
+								public void onSuccess(Integer result) {
+									Window.alert("Successfully removed");
+									gui.remove(index);
+								}
+								
+							});
+					  }
+				});
 				
 		vPanel.addColumn(CPRColumn, "CPR");
 		vPanel.addColumn(nameColumn, "Name");
@@ -55,6 +93,7 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 		vPanel.addColumn(rankColumn, "Rank");
 		vPanel.addColumn(saveColumn, "");
 		vPanel.addColumn(removeColumn, "");
+		
 		
 		ListDataProvider<AnsatDTO> userList = new ListDataProvider<AnsatDTO>();
 		
@@ -76,11 +115,12 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 						return value;
 					}
 				};
+				
 		return buttonColumn;
 	}
 
 	private Column<AnsatDTO, String> getRankColumn() {
-		final String[] ranks = new String[] {"Operat\u00F8r", "V\u00E6rkfu\00F8rer", "Farmaceut", "Administrator"};
+		final String[] ranks = new String[] {"Operat\u00F8r", "V\u00E6rkf\u00F8rer", "Farmaceut", "Administrator"};
 		SelectionCell rankCell = new SelectionCell(Arrays.asList(ranks));
 		Column<AnsatDTO, String> rankColumn = new Column<AnsatDTO, String>(rankCell)
 				{
@@ -89,33 +129,59 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 		                return ranks[object.getTitel()];  //pass integer as i here at runtime
 		            }
 				};
+				rankColumn.setFieldUpdater(new FieldUpdater<AnsatDTO, String>(){
+
+					  public void update(int index, final AnsatDTO ansat, final String value) {
+						switch(value)
+						{
+						case "Operat\u00F8r":
+							ansat.setTitel(0);
+							break;
+						case "V\u00E6rkf\u00F8rer":
+							ansat.setTitel(1);
+							break;
+						case "Farmaceut":
+							ansat.setTitel(2);
+							break;
+						case "Administrator":
+							ansat.setTitel(3);
+							break;
+						
+						}
+						  		
+					  }});
 		return rankColumn;
 	}
 
-	private TextColumn<AnsatDTO> getIniColumn() {
-		TextColumn<AnsatDTO> iniColumn = new TextColumn<AnsatDTO>()
-		{
-			@Override
-			public String getValue(AnsatDTO user) {
-				return user.getIni();
-			}
-		};
+	private Column<AnsatDTO, String> getIniColumn() {
+		EditTextCell iniCell = new EditTextCell();
+		Column<AnsatDTO, String> iniColumn = new Column<AnsatDTO, String>(iniCell)
+				{
+					@Override
+					public String getValue(AnsatDTO user) {
+						return user.getIni();
+					}
+				};
+				iniColumn.setFieldUpdater(new FieldUpdater<AnsatDTO, String>(){
+
+					  public void update(int index, final AnsatDTO ansat, final String value) {
+						  		ansat.setIni(value);
+					  }});
 		return iniColumn;
 	}
 
-	private TextColumn<AnsatDTO> getCPRColumn() {
-		TextColumn<AnsatDTO> CPRColumn = new TextColumn<AnsatDTO>()
+	private Column<AnsatDTO, String> getCPRColumn() {
+		EditTextCell cprCell = new EditTextCell();
+		Column<AnsatDTO, String> cprColumn = new Column<AnsatDTO, String>(cprCell)
 				{
-
 					@Override
 					public String getValue(AnsatDTO user) {
 						return user.getCpr();
 					}
-					
 				};
-		return CPRColumn;
+		return cprColumn;
 	}
-
+	
 	private Column<AnsatDTO, String> getNameColumn() {
 		EditTextCell nameCell = new EditTextCell();
 		Column<AnsatDTO, String> nameColumn = new Column<AnsatDTO, String>(nameCell)
@@ -125,14 +191,20 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 						return user.getOprNavn();
 					}
 				};
+		nameColumn.setFieldUpdater(new FieldUpdater<AnsatDTO, String>(){
+
+			  public void update(int index, final AnsatDTO ansat, final String value) {
+				  		ansat.setOprNavn(value);
+			  }});
 		return nameColumn;
 	}
 
+	//Fired when the user clicks "list users"
 	@Override
 	public void onClick(ClickEvent event) {
-		if(gui==null)
-			gui = getLayoutList(event);
+		gui = getLayoutList();
 		database.getAnsatList(this);
+	
 	}
 
 	@Override
@@ -154,10 +226,7 @@ public class ListUsersClickHandler implements ClickHandler, AsyncCallback<AnsatD
 		{
 			Window.alert("No data recieved.");
 		}
-		else
-		{
-			Window.alert("Data updated");
-		}
+
 		for (AnsatDTO ansatDTO : result) {
 			gui.add(ansatDTO);
 		}

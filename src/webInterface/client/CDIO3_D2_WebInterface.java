@@ -1,7 +1,10 @@
 package webInterface.client;
 
 import webInterface.client.EventHandlers.ListUsersClickHandler;
+import webInterface.client.EventHandlers.NewUserClickhandler;
+
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -23,11 +26,12 @@ public class CDIO3_D2_WebInterface implements EntryPoint {
 	public void onModuleLoad() 
 	{
 		RootPanel container = RootPanel.get("options");
-		String[] buttons = {"List users"};
-		for(String s : buttons)
+		String[] buttons = {"List users", "Create new user"};
+		ClickHandler[] clickers = {new ListUsersClickHandler(), new NewUserClickhandler()};
+		for(int i=0;i<buttons.length;++i)
 		{
-			PushButton t = new PushButton(s);
-			t.addClickHandler(new ListUsersClickHandler());
+			PushButton t = new PushButton(buttons[i]);
+			t.addClickHandler(clickers[i]);
 			container.add(t);
 		}
 	}
