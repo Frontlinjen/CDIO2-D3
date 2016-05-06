@@ -1,4 +1,4 @@
-package webInterface.server;
+package webInterface.server.Database;
 
 public class DALException extends Exception
 {
